@@ -46,19 +46,3 @@ sub vcl_recv {
 ```
 
 * Edit ``/etc/varnish/default.vcl`` add ``include /etc/varnish/acmetool.vcl``
-
-
-Ubuntu pre-Xenial:
-
-(edit ``/etc/default/varnish`` add ``-a '[::1]:6086,PROXY'`` to ``DAEMON_OPTS`` (Old non systemd ubuntu))
-
-https://github.com/hlandau/acme/releases
-$ wget https://github.com/hlandau/acme/releases/download/v0.0.38/acmetool-v0.0.38-linux_amd64_cgo.tar.gz
-$ tar xfz acmetool-v0.0.38-linux_amd64_cgo.tar.gz
-
-References
-----------
-
-https://fnord.no/2015/11/12/letsencrypt/
-https://github.com/hlandau/acme
-
