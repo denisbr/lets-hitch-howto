@@ -1,8 +1,6 @@
-How to secure Varnish with Hitch and Let's Encrypt
-==================================================
+# How to secure Varnish with Hitch and Let's Encrypt
 
-Introduction
-------------
+## Introduction
 
 Quote from the https://letsencrypt.org site: "Let’s Encrypt is a new
 Certificate Authority: It’s free, automated, and open.". Using Let's
@@ -18,13 +16,13 @@ This tutorial will give you instructions for both Ubuntu Xenial (soon to be
 released) and CentOS7. At the conclusion, you will have a fully working TLS
 setup with automatic certificate renewal.
 
-Prerequisites
--------------
+## Prerequisites
 
 Before starting this tutorial you will need a couple of things.
 
 Firstly you need a working Linux host, either set up with Ubuntu Xenial
 (16.04) or CentOS7.
+
 You will need root privileges throughout this tutorial, so either have access
 to the root user or sudo privileges (the step-by-step guides assume sudo
 usage).
@@ -45,13 +43,11 @@ public IP-address.
 
 Once you have the prerequisites in order, proceed to the actual software setup.
 
-Step 1 - Install Hitch and Varnish
-----------------------------------
+## Step 1 - Install Hitch and Varnish
 
 This step ensures the Hitch and Varnish packages are installed.
 
-Ubuntu Xenial
--------------
+### Ubuntu Xenial
 
 Update the package metadata and install the required packages:
 
@@ -60,8 +56,7 @@ sudo apt-get update
 sudo apt-get install hitch varnish
 ```
 
-CentOS7 / Red Hat EL7
----------------------
+### CentOS7 / Red Hat EL7
 
 Install the required packages:
 
@@ -71,8 +66,7 @@ sudo yum install hitch
 sudo rpm --nosignature -i https://repo.varnish-cache.org/redhat/varnish-4.1.el7.rpm
 ```
 
-Step 2 - Configure Varnish
---------------------------
+## Step 2 - Configure Varnish
 
 We want Varnish to forward all challenge requests to acmetool, and we are
 going to create a request matching rule in VCL that will ensure this forwarding
@@ -126,14 +120,12 @@ sudo service varnish restart
 ```
 
 
-Step 2 - Install Acmetool
--------------------------
+## Step 3 - Install Acmetool
 
 We will now install the acmetool binaries using the available APT PPA for
 Ubuntu, and the unpackaged, pre-built binary for CentOS7.
 
-Ubuntu Xenial
--------------
+### Ubuntu Xenial
 
 ```
 sudo add-apt-repository ppa:hlandau/rhea
@@ -141,8 +133,7 @@ sudo apt-get update
 sudo apt-get install acmetool
 ```
 
-CentOS7/Red Hat EL7
--------------------
+### CentOS7/Red Hat EL7
 
 Download and unpack the latest binary from 
 https://github.com/hlandau/acme/releases/latest, and copy it to 
@@ -154,19 +145,48 @@ tar xfz acmetool-v0.0.41-linux_amd64_cgo.tar.gz
 cp acmetool-v0.0.41-linux_amd64_cgo/bin/acmetool /usr/local/sbin
 ```
 
-Step 3 - Aquire the certificate
--------------------------------
+## Step 4 - Aquire the certificate
 
-V, and run the quickstart process. It should detect we are using Hitch and automatically set up a
-hook that will generate hitch-compatible cert-packages.
+Now we will use the acmetool quickstart. It should detect we are using Hitch
+and automatically set up a hook that will generate hitch-compatible
+certificate-packages.
 
-
+```
 sudo acmetool quickstart
 sudo acmetool want lets-hitch.varnish-software.com
+```
+
+## Step 5 - Configure Hitch
+
+Now we should have our own valid certificate, and we can use it to set up
+Hitch. As previously mentioned we configured Varnish to listen to an additional
+port (6086) where it will accept requests using the PROXY protocol.
+
+Use your favourite editor to create the file ``/etc/hitch/hitch.conf`` and
+copy the following contents into it:
+
+```
+## Basic hitch config for use with Varnish and Acmetool
+
+# Listening
+frontend = "[*]:443"
+ciphers  = "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
+
+# Send traffic to the Varnish backend using the PROXY protocol
+backend        = "[::1]:6086"
+write-proxy-v2 = on
+
+# If you run Varnish 4.0 use this instead
+#backend        = "[::1]:6081"
+#write-proxy-v2 = off 
+
+# List of PEM files, each with key, certificates and dhparams
+pem-file = ""
+```
 
 
-References
-----------
+
+## References
 
 https://fnord.no/2015/11/12/letsencrypt/
 https://github.com/hlandau/acme
@@ -177,22 +197,4 @@ https://www.icann.org/registrar-reports/accredited-list.html
 
 
 
-
-Use your favourite editor to create the file ``/etc/hitch/hitch.conf`` and copy the following 
-contents into it:
-
-```
-## Basic hitch config for use with Varnish and Acmetool
-
-# Listening
-frontend = "[*]:443"
-ciphers  = "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
-
-# Send traffic to the varnish backend
-backend        = "[::1]:6086"
-write-proxy-v2 = on
-
-# List of PEM files, each with key, certificates and dhparams
-pem-file = ""
-```
 
