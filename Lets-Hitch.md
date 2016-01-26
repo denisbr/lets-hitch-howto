@@ -12,16 +12,16 @@ the project also supplies an official version. However this guide is based
 on the very user friendly Acmetool instead, as it simplifies the process and
 is available for a number of TLS proxies, including Hitch.
 
-This tutorial will give you instructions for both Ubuntu Xenial (soon to be
-released) and CentOS7. At the conclusion, you will have a fully working TLS
-setup with automatic certificate renewal.
+This tutorial will give you instructions for both Ubuntu 16.04 Xenial (soon
+to be released) and CentOS7. At the conclusion, you will have a fully working
+TLS setup with automatic certificate renewal.
 
 ## Prerequisites
 
 Before starting this tutorial you will need a couple of things.
 
 Firstly you need a working Linux host, either set up with Ubuntu Xenial
-(16.04) or CentOS7.
+or CentOS7.
 
 You will need root privileges throughout this tutorial, so either have access
 to the root user or sudo privileges (the step-by-step guides assume sudo
@@ -30,6 +30,7 @@ usage).
 You must own or control a registered domain name that you wish to use the
 certificate with. If you do not yet own a domain name, please take a moment to
 aquire one from one of the many available registrars. 
+(See https://www.icann.org/registrar-reports/accredited-list.html)
 
 When you are in control of a domain name, create an A-record with the name of
 the domain that points to the public IP-address of the host you are setting up.
@@ -142,18 +143,51 @@ https://github.com/hlandau/acme/releases/latest, and copy it to
 ```
 wget https://github.com/hlandau/acme/releases/download/v0.0.41/acmetool-v0.0.41-linux_amd64_cgo.tar.gz
 tar xfz acmetool-v0.0.41-linux_amd64_cgo.tar.gz
-cp acmetool-v0.0.41-linux_amd64_cgo/bin/acmetool /usr/local/sbin
+sudo cp acmetool-v0.0.41-linux_amd64_cgo/bin/acmetool /usr/local/sbin
 ```
 
 ## Step 4 - Aquire the certificate
 
-Now we will use the acmetool quickstart. It should detect we are using Hitch
-and automatically set up a hook that will generate hitch-compatible
-certificate-packages.
+Now we will use acmetool to aquire a certificate. 
+
+Now we have everything in place and we run the acmetool quickstart process.
+It should detect we are using Hitch and automatically set up a hook that
+will generate hitch-compatible certificate-packages from certificate
+requests.
 
 ```
 sudo acmetool quickstart
-sudo acmetool want lets-hitch.varnish-software.com
+```
+
+Answer the prompts like this to enable live certificates authenticated through
+challenge requests proxied through Varnish.
+
+```
+------------------------- Select ACME Server -----------------------
+1) Let's Encrypt (Live) - I want live certificates
+```
+
+```
+----------------- Select Challenge Conveyance Method ---------------
+2) PROXY - I'll proxy challenge requests to an HTTP server
+```
+
+```
+----------------- Install HAProxy/Hitch hooks? ---------------------
+Yes) Do you want to install the HAProxy/Hitch notification hook?
+```
+
+Before we continue to requesting our certificate we need to generate a Diffie-
+Hellman group file (aka dhparams), used for perfect forward secrecy. 
+
+```
+sudo openssl dhparam -out /var/lib/acme/conf/dhparams 2048
+```
+
+Now we can finally get our certificate:
+
+```
+sudo acmetool want example.com
 ```
 
 ## Step 5 - Configure Hitch
@@ -181,20 +215,6 @@ write-proxy-v2 = on
 #write-proxy-v2 = off 
 
 # List of PEM files, each with key, certificates and dhparams
-pem-file = ""
+pem-file = "/var/lib/acme/live/example.com/haproxy"
 ```
-
-
-
-## References
-
-https://fnord.no/2015/11/12/letsencrypt/
-https://github.com/hlandau/acme
-https://www.icann.org/registrar-reports/accredited-list.html
-
-
-
-
-
-
 
