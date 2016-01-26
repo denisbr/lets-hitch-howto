@@ -9,8 +9,9 @@ for their own personal usage.
 
 There are a number of client-tools available to support this process, and
 the project also supplies an official version. However this guide is based
-on the very user friendly Acmetool instead, as it simplifies the process and
-is available for a number of TLS proxies, including Hitch.
+on the very user friendly [Acmetool](https://hlandau.github.io/acme/) instead,
+as it simplifies the process and is available for a number of TLS proxies,
+including [Hitch](https://hitch-tls.org/).
 
 This tutorial will give you instructions for both Ubuntu 16.04 Xenial (soon
 to be released) and CentOS7. At the conclusion, you will have a fully working
@@ -30,7 +31,8 @@ usage).
 You must own or control a registered domain name that you wish to use the
 certificate with. If you do not yet own a domain name, please take a moment to
 aquire one from one of the many available registrars. 
-(See https://www.icann.org/registrar-reports/accredited-list.html)
+(See [Icann.org](https://www.icann.org/registrar-reports/accredited-list.html)
+for an exhaustive list.)
 
 When you are in control of a domain name, create an A-record with the name of
 the domain that points to the public IP-address of the host you are setting up.
