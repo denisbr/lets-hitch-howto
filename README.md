@@ -98,7 +98,8 @@ sub vcl_recv {
 ```
 
 Then we need to include this into our main VCL.
-Open the file ``/etc/varnish/default.vcl`` and below ``vcl 4.0;`` add:
+Open the file ``/etc/varnish/default.vcl`` and add this below your backend
+definitions:
 ```
 include "/etc/varnish/acmetool.vcl";
 ```
