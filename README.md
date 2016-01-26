@@ -220,3 +220,9 @@ write-proxy-v2 = on
 pem-file = "/var/lib/acme/live/example.com/haproxy"
 ```
 
+Start hitch with the new configuration:
+
+```
+sudo service hitch start
+```
+
