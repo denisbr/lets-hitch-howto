@@ -228,6 +228,10 @@ write-proxy-v2 = on
 
 # List of PEM files, each with key, certificates and dhparams
 pem-file = "/var/lib/acme/live/example.com/haproxy"
+
+# Set uid/gid after binding a socket
+user = "hitch"
+group = "hitch"
 ```
 
 Start hitch with the new configuration:
