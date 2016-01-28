@@ -177,8 +177,13 @@ challenge requests proxied through Varnish.
 ```
 
 ```
------------------ Install HAProxy/Hitch hooks? ---------------------
+-------------------- Install HAProxy/Hitch hooks? ------------------
 Yes) Do you want to install the HAProxy/Hitch notification hook?
+```
+
+```
+-------------------- Install auto-renewal cronjob? -----------------
+Yes) Would you like to install a cronjob to renew certificates automatically? This is recommended.
 ```
 
 Before we continue to requesting our certificate we need to generate a Diffie-
