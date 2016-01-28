@@ -61,12 +61,13 @@ sudo apt-get install hitch varnish
 
 ### CentOS7 / Red Hat EL7
 
-Install the required packages:
+Install the required packages. In order to get Varnish 4.1 with added support for
+the PROXY protocol, we add the official varnish repository first.
 
 ```
 sudo yum install epel-release
-sudo yum install hitch
 sudo rpm --nosignature -i https://repo.varnish-cache.org/redhat/varnish-4.1.el7.rpm
+sudo yum install hitch varnish
 ```
 
 ## Step 2 - Configure Varnish
@@ -144,9 +145,9 @@ https://github.com/hlandau/acme/releases/latest, and copy it to
 ``/usr/local/sbin`` so that it will be found in the PATH.
 
 ```
-wget https://github.com/hlandau/acme/releases/download/v0.0.41/acmetool-v0.0.41-linux_amd64_cgo.tar.gz
-tar xfz acmetool-v0.0.41-linux_amd64_cgo.tar.gz
-sudo cp acmetool-v0.0.41-linux_amd64_cgo/bin/acmetool /usr/local/sbin
+wget https://github.com/hlandau/acme/releases/download/v0.0.42/acmetool-v0.0.42-linux_amd64_cgo.tar.gz
+tar xfz acmetool-v0.0.42-linux_amd64_cgo.tar.gz
+sudo cp acmetool-v0.0.42-linux_amd64_cgo/bin/acmetool /usr/local/sbin
 ```
 
 ## Step 4 - Aquire the certificate
