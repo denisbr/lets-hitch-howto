@@ -176,6 +176,9 @@ challenge requests proxied through Varnish.
 2) PROXY - I'll proxy challenge requests to an HTTP server
 ```
 
+Review and (hopefully) accept the letsencrypt.org Terms of Service, and
+enter your email address.
+
 ```
 -------------------- Install HAProxy/Hitch hooks? ------------------
 Yes) Do you want to install the HAProxy/Hitch notification hook?
