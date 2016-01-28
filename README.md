@@ -112,7 +112,11 @@ in Varnish 4.1.
 step, and simply change the port used for Varnish in the hitch config to 6081.)
 
 On Ubuntu Xenial, open the file ``/lib/systemd/system/varnish.service`` 
-add ``-a '[::1]:6086,PROXY'`` to the ``ExecStart`` line.
+add ``-a '[::1]:6086,PROXY'`` to the ``ExecStart`` line. You then need to 
+update systemd by running:
+```
+sudo systemctl daemon-reload
+```
 
 In CentOS7 the same option is added by editing ``/etc/varnish/varnish.params``
 and ensure the ``DAEMON_OPTS`` setting includes the following:
