@@ -149,9 +149,10 @@ https://github.com/hlandau/acme/releases/latest, and copy it to
 ``/usr/local/sbin`` so that it will be found in the PATH.
 
 ```
-wget https://github.com/hlandau/acme/releases/download/v0.0.42/acmetool-v0.0.42-linux_amd64_cgo.tar.gz
-tar xfz acmetool-v0.0.42-linux_amd64_cgo.tar.gz
-sudo cp acmetool-v0.0.42-linux_amd64_cgo/bin/acmetool /usr/local/sbin
+VER="$(wget --quiet -O - --header='Accept: application/vnd.github.v3+json' 'https://api.github.com/repos/hlandau/acme/releases/latest' | python -c 'import sys,json;k=json.load(sys.stdin);print(k["tag_name"])')"
+wget --quiet -O acmetool-bin.tar.gz "https://github.com/hlandau/acme/releases/download/$VER/acmetool-$VER-linux_amd64_cgo.tar.gz"
+tar xfz acmetool-bin.tar.gz
+sudo cp acmetool-$VER-linux_amd64_cgo/bin/acmetool /usr/local/sbin
 ```
 
 ## Step 4 - Aquire the certificate
@@ -213,7 +214,8 @@ Hitch. As previously mentioned we configured Varnish to listen to an additional
 port (6086) where it will accept requests using the PROXY protocol.
 
 Use your favourite editor to create the file ``/etc/hitch/hitch.conf`` and
-copy the following contents into it:
+copy the following contents into it, note the required user/group settings
+on CentOS/RHEL.
 
 ```
 ## Basic hitch config for use with Varnish and Acmetool
@@ -234,8 +236,9 @@ write-proxy-v2 = on
 pem-file = "/var/lib/acme/live/example.com/haproxy"
 
 # Set uid/gid after binding a socket
-user = "hitch"
-group = "hitch"
+# Uncomment these on CentOS/RHEL
+#user = "hitch"
+#group = "hitch"
 ```
 
 Start hitch with the new configuration:
