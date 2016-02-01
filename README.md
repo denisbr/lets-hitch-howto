@@ -136,6 +136,9 @@ Ubuntu, and the unpackaged, pre-built binary for CentOS7.
 
 ### Ubuntu Xenial
 
+Acmetool is published in a PPA, so we will add this and then install the 
+package:
+
 ```
 sudo add-apt-repository ppa:hlandau/rhea
 sudo apt-get update
@@ -144,15 +147,12 @@ sudo apt-get install acmetool
 
 ### CentOS7/Red Hat EL7
 
-Download and unpack the latest binary from 
-https://github.com/hlandau/acme/releases/latest, and copy it to 
-``/usr/local/sbin`` so that it will be found in the PATH.
+Acmetool is available in a copr repository. We will get the repository 
+file and then install the package:
 
 ```
-VER="$(wget --quiet -O - --header='Accept: application/vnd.github.v3+json' 'https://api.github.com/repos/hlandau/acme/releases/latest' | python -c 'import sys,json;k=json.load(sys.stdin);print(k["tag_name"])')"
-wget --quiet -O acmetool-bin.tar.gz "https://github.com/hlandau/acme/releases/download/$VER/acmetool-$VER-linux_amd64_cgo.tar.gz"
-tar xfz acmetool-bin.tar.gz
-sudo cp acmetool-$VER-linux_amd64_cgo/bin/acmetool /usr/local/sbin
+sudo wget --quiet -O /etc/yum.repos.d/hlandau-acmetool-epel-7.repo 'https://copr.fedorainfracloud.org/coprs/hlandau/acmetool/repo/epel-7/hlandau-acmetool-epel-7.repo'
+sudo yum install acmetool
 ```
 
 ## Step 4 - Aquire the certificate
