@@ -250,7 +250,7 @@ sudo service hitch start
 ## Conclusion
 
 You now have a fully configured TLS-capable stack, and accessing your server
-via https:// should present the site with a valid TLS certificate signed
-issued from Let's Encrypt.
+via https:// should present the site with a valid TLS certificate issued 
+by Let's Encrypt.
 
 Now you can continue on to configuring Varnish to suit your use.
