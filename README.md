@@ -145,7 +145,7 @@ sudo apt-get update
 sudo apt-get install acmetool
 ```
 
-### CentOS7/Red Hat EL7
+### CentOS7 / Red Hat EL7
 
 Acmetool is available in a copr repository. We will get the repository 
 file and then install the package:
