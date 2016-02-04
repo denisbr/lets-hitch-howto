@@ -9,5 +9,6 @@ backend acmetool {
 sub vcl_recv {
    if (req.url ~ "^/.well-known/acme-challenge/") {
        set req.backend_hint = acmetool;
+       return(pass);
    }
 }

@@ -25,7 +25,7 @@ Firstly you need a working Linux host, either set up with Ubuntu Xenial
 or CentOS7.
 
 You will need root privileges throughout this tutorial, so either have access
-to the root user or sudo privileges (the step-by-step guides assume sudo
+to the root user or sudo privileges (the step-by-step guide assumes sudo
 usage).
 
 You must own or control a registered domain name that you wish to use the
@@ -94,6 +94,7 @@ backend acmetool {
 sub vcl_recv {
    if (req.url ~ "^/.well-known/acme-challenge/") {
        set req.backend_hint = acmetool;
+       return(pass);
    }
 }
 ```
@@ -250,7 +251,7 @@ sudo service hitch start
 ## Conclusion
 
 You now have a fully configured TLS-capable stack, and accessing your server
-via https:// should present the site with a valid TLS certificate issued 
+via https:// should present the site with a valid certificate issued 
 by Let's Encrypt.
 
 Now you can continue on to configuring Varnish to suit your use.
