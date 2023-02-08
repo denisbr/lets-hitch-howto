@@ -1,17 +1,31 @@
+# Warning!
+
+Note that the following repository contains outdated and likely incorrect
+information. Please refer to the official sites for up to date documentation
+
+https://hitch-tls.org/
+https://letsencrypt.org/
+https://varnish-cache.org/
+https://www.varnish-software.com/
+https://hlandau.github.io/acmetool/
+
+
+
+
 # How to secure Varnish with Hitch and Let's Encrypt
 
 ## Introduction
 
-Quote from the https://letsencrypt.org site: "Let’s Encrypt is a new
+Quote from the https://letsencrypt.org/ site: "Let’s Encrypt is a new
 Certificate Authority: It’s free, automated, and open.". Using Let's
 Encrypt anyone with ownership of a domain name can aquire a TLS certificate
 for their own personal usage.
 
 There are a number of client-tools available to support this process, and
 the project also supplies an official version. However this guide is based
-on the very user friendly [Acmetool](https://hlandau.github.io/acme/) instead,
-as it simplifies the process and is available for a number of TLS proxies,
-including [Hitch](https://hitch-tls.org/).
+on the very user friendly [Acmetool](https://hlandau.github.io/acmetool/)
+instead, as it simplifies the process and is available for a number of TLS
+proxies, including [Hitch](https://hitch-tls.org/).
 
 This tutorial will give you instructions for both Ubuntu 16.04 Xenial (soon
 to be released) and CentOS7. At the conclusion, you will have a fully working
