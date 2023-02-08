@@ -3,11 +3,11 @@
 Note that the following repository contains outdated and likely incorrect
 information. Please refer to the official sites for up to date documentation
 
-https://hitch-tls.org/
-https://letsencrypt.org/
-https://varnish-cache.org/
-https://www.varnish-software.com/
-https://hlandau.github.io/acmetool/
+* https://hitch-tls.org/
+* https://letsencrypt.org/
+* https://varnish-cache.org/
+* https://www.varnish-software.com/
+* https://hlandau.github.io/acmetool/
 
 
 
